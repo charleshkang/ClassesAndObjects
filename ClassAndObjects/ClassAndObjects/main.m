@@ -62,6 +62,13 @@
 
 - (void) putMoney:(int)money {
     
+    
+    if(self.pocket < money){
+        NSLog(@"You don't have enough money in your pocket");
+        exit(0);
+    }
+
+    
     self.pocket -= money;
     
     self.account.balance += money;
@@ -101,16 +108,16 @@ int main(int argc, const char * argv[]) {
         
         p.account = b;
         p.name = @"Charles";
-        p.pocket = 2000;
+        p.pocket = 500;
         
         [p showPocket];
         
-        [p putMoney:100];
+        [p putMoney: 500];
         
-        NSLog(@"\n");
-        
-        [p getMoney:20];
-        
+//        NSLog(@"\n");
+//        
+//        [p getMoney:20];
+
         
        // [p showBalance];
         
