@@ -22,7 +22,7 @@
 @implementation BankAccount
 
 - (void) showBalance{
-    NSString *description = [NSString stringWithFormat:@"%d",self.balance];
+    NSString *description = [NSString stringWithFormat:@"%d", self.balance];
     NSLog(@"%@",description);
 }
 
@@ -30,7 +30,7 @@
     int balance = self.balance;
     balance = balance - money;
     
-    NSLog(@"You now have: $%d left in your account.",balance);
+    NSLog(@"You now have: $%d left in your account.", balance);
 }
 
 
@@ -51,23 +51,36 @@
 
 @implementation Patron
 
-- (void) putMoney:(int)money{
+
+- (void) putMoney:(int)money {
     
     
     BankAccount *b = [[BankAccount alloc] init];
-    
     b.accountNumber = 2017;
+    b.balance = 5,000,000;
     
-    b.balance = 5000000;
+    int pocket = self.pocket;
+    pocket = pocket - money;
     
     [b deposit:money];
     
     
+}
+
+- (void) getMoney:(int)money {
+    
+    BankAccount *b = [[BankAccount alloc] init];
+    b.accountNumber = 2017;
+    b.balance = 5,000,000;
+    
+    int pocket = self.pocket;
+    pocket = pocket + money;
+    
+    [b withdraw:money];
     
 }
 
 @end
-
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
