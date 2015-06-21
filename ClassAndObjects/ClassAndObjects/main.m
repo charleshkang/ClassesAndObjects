@@ -44,6 +44,7 @@
 - (void) showBalance;
 - (void) getMoney:(int)money;
 - (void) putMoney:(int)money;
+- (void) showPocket;
 
 @property (nonatomic) BankAccount * account;
 @property (nonatomic) int pocket;
@@ -53,25 +54,27 @@
 @end
 
 @implementation Patron
-
+- (void) showPocket{
+    NSString *pocket = [NSString stringWithFormat:@"$%d is your current pocket change", self.pocket];
+    NSLog(@"%@",pocket);
+}
 
 - (void) putMoney:(int)money {
     
-    int pocket = self.pocket;
-    pocket = pocket - money;
+    self.pocket -= money;
     
-    self.account.balance+=money;
+    self.account.balance += money;
     
     NSLog(@"You deposited $%d into your account, you now have $%d in your pocket",self.account.balance,self.pocket);
 }
 
 - (void) getMoney:(int)money {
     
-    int pocket = self.pocket;
-    pocket = pocket + money;
+    self.pocket += money;
     
     self.account.balance -=money;
-    NSLog(@"You withdrew $%d from your pocket, you now have $%d in your account",self.pocket,self.account.balance);
+    
+    NSLog(@"You withdrew $%d from your account, you now have $%d in your pocket",self.account.balance,self.pocket);
 }
 
 - (void) showBalance{
@@ -89,15 +92,19 @@ int main(int argc, const char * argv[]) {
         Patron * p = [[Patron alloc]init];
         
         p.account = b;
+        p.name = @"Charles";
         p.pocket = 2000;
         
+        [p showPocket];
         
         [p putMoney:100];
         
+        NSLog(@"\n");
+        
         [p getMoney:50];
         
-        NSLog(@"\n");
-        [p showBalance];
+        
+       // [p showBalance];
         
         
         
