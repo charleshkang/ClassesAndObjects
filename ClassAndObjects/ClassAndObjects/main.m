@@ -11,28 +11,31 @@
 @interface BankAccount : NSObject
 
 - (void) showBalance;
-- (void) withdraw:(int)money;
-- (void) deposit:(int)money;
+
 
 @property  (nonatomic) int balance;
-@property (nonatomic) int accountNumber;
-
 @end
 
 @implementation BankAccount
 
 - (void) showBalance{
+    
     NSString *description = [NSString stringWithFormat:@"%d", self.balance];
     NSLog(@"%@",description);
 }
 
-- (void) withdraw:(int)money{
-    int balance = self.balance;
-    balance = balance - money;
-    
-    NSLog(@"You now have: $%d left in your account.", balance);
-}
-
+//- (void) withdraw:(int)money{
+//    int balance = self.balance;
+//    balance = balance - money;
+//    
+//    NSLog(@"You withdrew, you have: $%d left in your account.", balance);
+//}
+//-(void) deposit:(int)money{
+//    int balance = self.balance;
+//    balance = balance + money;
+//    
+//    NSLog(@"You deposited, you have: $%d left in your account.", balance);
+//}
 
 @end
 
@@ -42,7 +45,7 @@
 - (void) getMoney:(int)money;
 - (void) putMoney:(int)money;
 
-@property (nonatomic) int accountNumber;
+@property (nonatomic) BankAccount * account;
 @property (nonatomic) int pocket;
 @property (nonatomic) NSString *name;
 
@@ -54,36 +57,51 @@
 
 - (void) putMoney:(int)money {
     
-    
-    BankAccount *b = [[BankAccount alloc] init];
-    b.accountNumber = 2017;
-    b.balance = 5,000,000;
-    
     int pocket = self.pocket;
     pocket = pocket - money;
     
-    [b deposit:money];
+    self.account.balance+=money;
     
-    
+    NSLog(@"You deposited $%d into your account, you now have $%d in your pocket",self.account.balance,self.pocket);
 }
 
 - (void) getMoney:(int)money {
     
-    BankAccount *b = [[BankAccount alloc] init];
-    b.accountNumber = 2017;
-    b.balance = 5,000,000;
-    
     int pocket = self.pocket;
     pocket = pocket + money;
     
-    [b withdraw:money];
-    
+    self.account.balance -=money;
+    NSLog(@"You withdrew $%d from your pocket, you now have $%d in your account",self.pocket,self.account.balance);
+}
+
+- (void) showBalance{
+    NSString *balance = [NSString stringWithFormat:@"$%d is your current account balance", self.account.balance];
+    NSLog(@"%@",balance);
 }
 
 @end
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
+        
+        BankAccount *b = [[BankAccount alloc]init];
+        b.balance=0;
+        Patron * p = [[Patron alloc]init];
+        
+        p.account = b;
+        p.pocket = 2000;
+        
+        
+        [p putMoney:100];
+        
+        [p getMoney:50];
+        
+        NSLog(@"\n");
+        [p showBalance];
+        
+        
+        
+        
         
     }
     return 0;
