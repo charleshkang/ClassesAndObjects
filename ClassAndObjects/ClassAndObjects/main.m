@@ -27,13 +27,13 @@
 //- (void) withdraw:(int)money{
 //    int balance = self.balance;
 //    balance = balance - money;
-//    
+//
 //    NSLog(@"You withdrew, you have: $%d left in your account.", balance);
 //}
 //-(void) deposit:(int)money{
 //    int balance = self.balance;
 //    balance = balance + money;
-//    
+//
 //    NSLog(@"You deposited, you have: $%d left in your account.", balance);
 //}
 
@@ -44,6 +44,7 @@
 - (void) showBalance;
 - (void) getMoney:(int)money;
 - (void) putMoney:(int)money;
+- (void) showPocket;
 
 @property (nonatomic) BankAccount * account;
 @property (nonatomic) int pocket;
@@ -53,25 +54,34 @@
 @end
 
 @implementation Patron
-
+- (void) showPocket{
+    NSString *pocket = [NSString stringWithFormat:@"$%d is your current pocket change", self.pocket];
+    NSLog(@"%@",pocket);
+}
 
 - (void) putMoney:(int)money {
     
-    int pocket = self.pocket;
-    pocket = pocket - money;
+    self.pocket -= money;
     
-    self.account.balance+=money;
+    self.account.balance += money;
     
     NSLog(@"You deposited $%d into your account, you now have $%d in your pocket",self.account.balance,self.pocket);
 }
 
 - (void) getMoney:(int)money {
     
-    int pocket = self.pocket;
-    pocket = pocket + money;
+    //Prevent a patron from performing an overwithdrawl
     
-    self.account.balance -=money;
-    NSLog(@"You withdrew $%d from your pocket, you now have $%d in your account",self.pocket,self.account.balance);
+    if(self.account.balance < money){
+        NSLog(@"You don't have enough money");
+        exit(0);
+    }
+    else{
+        self.pocket += money;
+        self.account.balance -=money;
+    }
+    
+    NSLog(@"You withdrew $%d from your account, you now have $%d in your pocket",money,self.pocket);
 }
 
 - (void) showBalance{
@@ -89,15 +99,19 @@ int main(int argc, const char * argv[]) {
         Patron * p = [[Patron alloc]init];
         
         p.account = b;
+        p.name = @"Charles";
         p.pocket = 2000;
         
+        [p showPocket];
         
         [p putMoney:100];
         
-        [p getMoney:50];
-        
         NSLog(@"\n");
-        [p showBalance];
+        
+        [p getMoney:20];
+        
+        
+       // [p showBalance];
         
         
         
