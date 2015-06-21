@@ -27,13 +27,13 @@
 //- (void) withdraw:(int)money{
 //    int balance = self.balance;
 //    balance = balance - money;
-//    
+//
 //    NSLog(@"You withdrew, you have: $%d left in your account.", balance);
 //}
 //-(void) deposit:(int)money{
 //    int balance = self.balance;
 //    balance = balance + money;
-//    
+//
 //    NSLog(@"You deposited, you have: $%d left in your account.", balance);
 //}
 
@@ -70,11 +70,18 @@
 
 - (void) getMoney:(int)money {
     
-    self.pocket += money;
+    //Prevent a patron from performing an overwithdrawl
     
-    self.account.balance -=money;
+    if(self.account.balance < money){
+        NSLog(@"You don't have enough money");
+        exit(0);
+    }
+    else{
+        self.pocket += money;
+        self.account.balance -=money;
+    }
     
-    NSLog(@"You withdrew $%d from your account, you now have $%d in your pocket",self.account.balance,self.pocket);
+    NSLog(@"You withdrew $%d from your account, you now have $%d in your pocket",money,self.pocket);
 }
 
 - (void) showBalance{
@@ -101,7 +108,7 @@ int main(int argc, const char * argv[]) {
         
         NSLog(@"\n");
         
-        [p getMoney:50];
+        [p getMoney:20];
         
         
        // [p showBalance];
