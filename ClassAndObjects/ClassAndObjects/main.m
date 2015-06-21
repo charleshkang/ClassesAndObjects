@@ -11,24 +11,38 @@
 @interface BankAccount : NSObject
 
 - (void) showBalance;
-- (void) getMoney;
-- (void) putMoney;
+- (void) withdraw:(int)money;
+- (void) deposit:(int)money;
 
 @property  (nonatomic) int balance;
+@property (nonatomic) int accountNumber;
 
 @end
 
 @implementation BankAccount
+
+- (void) showBalance{
+    NSString *description = [NSString stringWithFormat:@"%d",self.balance];
+    NSLog(@"%@",description);
+}
+
+- (void) withdraw:(int)money{
+    int balance = self.balance;
+    balance = balance - money;
+    
+    NSLog(@"You now have: $%d left in your account.",balance);
+}
+
 
 @end
 
 @interface Patron : NSObject
 
 - (void) showBalance;
-- (void) getMoney;
-- (void) putMoney;
+- (void) getMoney:(int)money;
+- (void) putMoney:(int)money;
 
-@property (nonatomic) int account;
+@property (nonatomic) int accountNumber;
 @property (nonatomic) int pocket;
 @property (nonatomic) NSString *name;
 
@@ -37,6 +51,20 @@
 
 @implementation Patron
 
+- (void) putMoney:(int)money{
+    
+    
+    BankAccount *b = [[BankAccount alloc] init];
+    
+    b.accountNumber = 2017;
+    
+    b.balance = 5000000;
+    
+    [b deposit:money];
+    
+    
+    
+}
 
 @end
 
